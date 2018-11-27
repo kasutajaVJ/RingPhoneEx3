@@ -3,7 +3,6 @@ package com.example.vanessa.ringphoneex3;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -11,13 +10,11 @@ import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.IBinder;
-import android.os.PowerManager;
 import android.provider.Settings;
-import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 
-public class RingService extends Service implements MediaPlayer.OnPreparedListener {
+public class RingService extends Service {
 
     MediaPlayer mp;
 
@@ -60,13 +57,8 @@ public class RingService extends Service implements MediaPlayer.OnPreparedListen
     public int onStartCommand(Intent intent, int flags, int startId) {
         mp = MediaPlayer.create(this, Settings.System.DEFAULT_RINGTONE_URI);
         mp.setLooping(true);
-        mp.setOnPreparedListener(this);
         mp.start();
         return Service.START_STICKY;
-    }
-
-    public void onPrepared(MediaPlayer player) {
-        mp.start();
     }
 
     @Override
@@ -74,6 +66,5 @@ public class RingService extends Service implements MediaPlayer.OnPreparedListen
         if (mp.isPlaying()) {
             mp.stop();
         }
-        mp.release();
     }
 }

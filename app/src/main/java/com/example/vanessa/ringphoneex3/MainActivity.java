@@ -1,6 +1,7 @@
 package com.example.vanessa.ringphoneex3;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,5 +23,29 @@ public class MainActivity extends AppCompatActivity {
     public void onStop(View view) {
         Intent intent = new Intent(this, RingService.class);
         stopService(intent);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent i = new Intent(MainActivity.this, MainActivity.class);
+                startActivity(i);
+            }
+        }, 10000);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent i = new Intent(MainActivity.this, MainActivity.class);
+                startActivity(i);
+            }
+        }, 10000);
     }
 }
